@@ -22,5 +22,5 @@ export async function POST(req: Request) {
 
   console.log(completion.choices[0]);
 
-  return NextResponse.json({ message: "hello from server" }, { status: 200 });
+  return NextResponse.json({ message: completion.choices[0].message.content }, { status: 200 });
 }
