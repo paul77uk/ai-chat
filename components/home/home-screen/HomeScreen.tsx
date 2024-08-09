@@ -3,7 +3,7 @@
 import { createChatResult } from "@/app/auth/callback/actions";
 import Nav from "@/components/Nav";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCompletion } from "ai/react";
 
 export default function Completion() {
@@ -16,12 +16,15 @@ export default function Completion() {
     handleSubmit,
   } = useCompletion({ api: "/api/completion" });
 
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["createChatResult"],
     mutationFn: async () =>
       createChatResult({ message: completion, title: input }),
     onSuccess: () => {
       alert("Chat result saved!");
+        queryClient.invalidateQueries({ queryKey: ["createChatResult"] });
     },
     onError: (error) => {
       console.error(error);
