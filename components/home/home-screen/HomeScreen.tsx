@@ -3,8 +3,10 @@
 import { createChatResult } from "@/app/auth/callback/actions";
 import Nav from "@/components/Nav";
 import { Button } from "@/components/ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { useMutation } from "@tanstack/react-query";
 import { useCompletion } from "ai/react";
+import { toast } from "sonner";
 
 export default function Completion() {
   const {
@@ -21,7 +23,7 @@ export default function Completion() {
     mutationFn: async () =>
       createChatResult({ message: completion, title: input }),
     onSuccess: () => {
-      alert("Chat result saved!");
+      toast.success("Chat result saved!");
     },
     onError: (error) => {
       console.error(error);
