@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const body = JSON.stringify({
     prompt,
     model: "command-nightly",
-    max_tokens: 300,
+    // max_tokens: 300,
     stop_sequences: [],
     temperature: 0.9,
     return_likelihoods: "NONE",

@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
+import { createChatResult } from "@/app/auth/callback/actions";
+import Nav from "@/components/Nav";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { useMutation } from "@tanstack/react-query";
 import { useCompletion } from "ai/react";
 
 export default function Completion() {
@@ -15,18 +16,21 @@ export default function Completion() {
     handleSubmit,
   } = useCompletion({ api: "/api/completion" });
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["createChatResult"],
+    mutationFn: async () =>
+      createChatResult({ message: completion, title: input }),
+    onSuccess: () => {
+      alert("Chat result saved!");
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   return (
     <main>
-      <div className="flex justify-between items-center p-3">
-        <div className="flex gap-2 items-center">
-          <div>AI Chat</div>
-        </div>
-
-        <LogoutLink>
-          <Button>Logout</Button>
-        </LogoutLink>
-      </div>
-      <Separator className="shadow" />
+      <Nav />
       <div className="mx-auto w-full max-w-md py-24 flex flex-col stretch">
         <form onSubmit={handleSubmit} className="flex items-center gap-3 mb-8">
           <label className="grow">
@@ -42,6 +46,10 @@ export default function Completion() {
           </Button>
           <Button disabled={isLoading} type="submit">
             Send
+          </Button>
+
+          <Button disabled={isPending} onClick={() => mutate()}>
+            {isPending ? "Saving Result..." : "Save Result"}
           </Button>
         </form>
         <output>Completion result: {completion}</output>
