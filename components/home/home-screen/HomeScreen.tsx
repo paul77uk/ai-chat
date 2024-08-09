@@ -16,15 +16,12 @@ export default function Completion() {
     handleSubmit,
   } = useCompletion({ api: "/api/completion" });
 
-  const queryClient = useQueryClient();
-
   const { mutate, isPending } = useMutation({
     mutationKey: ["createChatResult"],
     mutationFn: async () =>
       createChatResult({ message: completion, title: input }),
     onSuccess: () => {
       alert("Chat result saved!");
-        queryClient.invalidateQueries({ queryKey: ["createChatResult"] });
     },
     onError: (error) => {
       console.error(error);

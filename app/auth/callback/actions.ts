@@ -2,6 +2,7 @@
 
 import prisma from "@/app/db/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export async function checkAuthStatus() {
   const { getUser } = getKindeServerSession();
@@ -48,6 +49,8 @@ export async function createChatResult({
       userId: user.id,
     },
   });
+
+  revalidatePath("/api/saved-results");
 
   return { success: true, newChatResult };
 }
