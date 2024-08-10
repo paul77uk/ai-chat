@@ -59,3 +59,16 @@ export const deleteChatResult = async (id: string) => {
   await prisma.chat.delete({ where: { id } });
   revalidatePath("/api/saved-results");
 };
+
+export const updateChatResult = async ({
+  id,
+  title,
+  message,
+}: {
+  id: string;
+  title: string;
+  message: string;
+}) => {
+  await prisma.chat.update({ where: { id }, data: { title, message } });
+  revalidatePath("/api/saved-results");
+};

@@ -26,7 +26,7 @@ export default function Completion() {
       toast.success("Chat result saved!");
     },
     onError: (error) => {
-      console.error(error);
+      toast.error("Failed to save chat result");
     },
   });
 

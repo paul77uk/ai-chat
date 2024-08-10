@@ -24,15 +24,15 @@ const DeleteBtn = ({ chatResultId }: { chatResultId: string }) => {
       toast.success("Chat result deleted!");
     },
     onError: (error) => {
-      console.error(error);
+      toast.error("Failed to delete chat result");
     },
   });
 
   return (
-    <main>
-      <AlertDialog>
+    <main >
+      <AlertDialog >
         <AlertDialogTrigger asChild>
-          <Button variant={"destructive"} className="mt-3">
+          <Button variant={"destructive"} >
             Delete
           </Button>
         </AlertDialogTrigger>
